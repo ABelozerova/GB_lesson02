@@ -1,0 +1,141 @@
+# задание 1
+# Реализовать скрипт проверки типа данных каждого элемента.
+# Использовать функцию type() для проверки типа.
+# Элементы списка можно не запрашивать у пользователя, а указать явно, в программе.
+
+my_list = list("хочувотпуск")
+print(my_list)
+my_list.extend([18,8,2022])
+print(my_list)
+print(f"количество индексов в списке = {len(my_list) - 1}")
+
+n = 0
+while n < len(my_list):
+    print("элемент № {}: {}, имеет тип {}".format(n, my_list[n], type(my_list[n])))
+    n = n + 1
+    
+ 
+ #задание 2
+ # Для списка реализовать обмен значений соседних элементов,
+# т.е. Значениями обмениваются элементы с индексами 0 и 1, 2 и 3 и т.д.
+# При нечетном количестве элементов последний сохранить на своем месте.
+# Для заполнения списка элементов необходимо использовать функцию input().
+
+old_list = list(input("Введите элементы списка >>> "))
+new_list = []
+
+n = 0
+
+if len(old_list)%2 == 0:
+    while n < len(old_list):
+        new_list.extend([old_list[n+1], old_list[n]])
+        n = n + 2
+else:
+    while n < (len(old_list) - 1):
+        new_list.extend([old_list[n+1], old_list[n]])
+        n = n + 2
+    else:
+        new_list.extend(old_list[len(old_list) - 1])
+
+print(new_list)
+
+
+# задание 3
+# Пользователь вводит месяц в виде целого числа от 1 до 12.
+# Сообщить к какому времени года относится месяц (зима, весна, лето, осень).
+# Напишите решения через list и через dict.
+
+season = dict(
+    vesna = {3, 4, 5},
+    leto = {6, 7, 8},
+    osen = {9, 10, 11},
+    zima = {12, 1, 2})
+
+mount = int(input("Введите месяц в виде целого числа от 1 до 12 >>> "))
+
+if mount < 12:
+    for key, value in season.items():
+        if mount in value:
+            print(key)
+            break
+else:
+    print("Вы ввели число больше 12!")
+
+
+# задание 4
+# Пользователь вводит строку из нескольких слов, разделённых пробелами.
+# Вывести каждое слово с новой строки. Строки необходимо пронумеровать.
+# Если в слово длинное, выводить только первые 10 букв в слове.
+
+stroka = input('Введите строку из нескольких слов, разделённых пробелами >>> ').split(" ")
+
+for i, el in enumerate(stroka, 1):
+    print(i, el[0:10])
+    
+    
+# задание 5
+# Реализовать структуру «Рейтинг», представляющую собой не возрастающий набор натуральных чисел.
+# У пользователя необходимо запрашивать новый элемент рейтинга.
+# Если в рейтинге существуют элементы с одинаковыми значениями,
+# то новый элемент с тем же значением должен разместиться после них.
+
+rating = [7, 5, 3, 3, 2]
+
+a = False
+while not a:
+    try:
+        new_element = int(input('Введите новый элемент рейтинга >>> '))
+        if new_element < 0:
+            print('Должно быть положительное число')
+            continue
+        if new_element > max(rating):
+            rating.insert(0, new_element)
+            break
+        if new_element < min(rating):
+            rating.append(new_element)
+            break
+        for i, el in enumerate(rating):
+            if rating[-1] == new_element:
+                rating.append(new_element)
+                a = True
+                break
+            if el == new_element and el != rating[i + 1]:
+                rating.insert(i + 1, new_element)
+                a = True
+                break
+    except ValueError:
+        print('Должно быть положительное число')
+
+print(f'Измененный список {rating}')
+
+
+# задание 6
+# Реализовать структуру данных «Товары». Она должна представлять собой список кортежей.
+# Каждый кортеж хранит информацию об отдельном товаре.
+# В кортеже должно быть два элемента — номер товара и словарь с параметрами
+# (характеристиками товара: название, цена, количество, единица измерения).
+# Структуру нужно сформировать программно, т.е. запрашивать все данные у пользователя.
+from typing import Union, Any
+
+Goods_list = []
+information = {"inf_name": [],
+               "inf_price": [],
+               "inf_quantity": [],
+               "inf_unit": []}
+number = 1
+while True:
+    name = input("Введите название товара >>> ")
+    price = int(input("Введите цену товара >>> "))
+    quantity = int(input("Введите количество товара >>> "))
+    unit = input("Введите единицу измерения товара >>> ")
+    information = dict(inf_name=name, inf_price=price, inf_quantity=quantity, inf_unit=unit)
+    good = (number, information)
+    Goods_list.append(good)
+
+    number += 1
+    
+    dop_zapros = input("Добавить новый товар в список? ").lower()
+    if dop_zapros == "нет":
+        break
+
+print(Goods_list)
